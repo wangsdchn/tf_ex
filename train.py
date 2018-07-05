@@ -19,7 +19,7 @@ IMG_H = 224
 BATCH_SIZE = 128
 CAPACITY = 2000
 MAX_STEP = 10000  # with current parameters, it is suggested to use MAX_STEP>10k
-learning_rate = 0.001  # with current parameters, it is suggested to use learning rate<0.0001
+learning_rate = 0.01  # with current parameters, it is suggested to use learning rate<0.0001
 
 
 # %%
@@ -59,6 +59,7 @@ def run_training():
                     train_writer.add_summary(summary_str, step)
 
                 if step % 2000 == 0 or (step + 1) == MAX_STEP:
+                    
                     checkpoint_path = os.path.join(logs_train_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step=step)
 

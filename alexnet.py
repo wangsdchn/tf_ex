@@ -94,7 +94,7 @@ def losses(logits, labels):
 
 def trainning(loss, learning_rate):
     with tf.name_scope('optimizer'):
-        optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(loss)
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate).minimize(loss)
     return optimizer
 
 
