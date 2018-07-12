@@ -72,5 +72,5 @@ def inference_op(input_op, keep_prob):
 
     softmax = tf.nn.softmax(fc8)
     predict = tf.argmax(softmax, 1)
-    # return predict, softmax, fc8, p
-    return fc8
+
+    return predict, softmax, fc8, p
