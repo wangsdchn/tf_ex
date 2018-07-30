@@ -17,8 +17,8 @@ import alexnet
 N_CLASSES = 2
 IMG_W = 227  # resize the image, if the input image is too large, training will be very slow.
 IMG_H = 227
-BATCH_SIZE = 32
-CAPACITY = 64
+BATCH_SIZE = 64
+CAPACITY = 128
 MAX_STEP = 20000  # with current parameters, it is suggested to use MAX_STEP>10k
 learning_rate = 0.0001  # with current parameters, it is suggested to use learning rate<0.0001
 
@@ -26,8 +26,8 @@ train_layers = {'fc6', 'fc7', 'fc8'}
 
 # %%
 def run_training():
-    train_dir = './dataset/train/'  # My dir--20170727-csq
-    logs_train_dir = './logs/'
+    train_dir = '../dataset/train/'  # My dir--20170727-csq
+    logs_train_dir = '../logs/'
     train, train_label = input_data.get_files(train_dir)
 
     train_batch, train_label_batch = input_data.get_batch(train,
@@ -37,7 +37,7 @@ def run_training():
                                                           BATCH_SIZE,
                                                           CAPACITY)
 
-    train_logits = alexnet.inference(train_batch)
+    train_logits = alexnet.create(train_batch)
     var_list = [v for v in tf.trainable_variables() if v.name.split('/')[0] in train_layers]
     train_loss = alexnet.losses(train_logits, train_label_batch)
     train_op = alexnet.trainning(train_loss, var_list, learning_rate)
@@ -48,7 +48,7 @@ def run_training():
         train_writer = tf.summary.FileWriter(logs_train_dir, sess.graph)
         saver = tf.train.Saver()
 
-        alexnet.load_initial_weights('bvlc_alexnet.npy', train_layers, sess)
+        alexnet.load_initial_weights('../bvlc_alexnet.npy', train_layers, sess)
         sess.run(tf.global_variables_initializer())
         coord = tf.train.Coordinator()
         threads = tf.train.start_queue_runners(sess=sess, coord=coord)
@@ -76,6 +76,7 @@ def run_training():
         finally:
             coord.request_stop()
         coord.join(threads)
+
 
 if __name__ == '__main__':
     run_training()

@@ -50,7 +50,7 @@ def inception_v3_base(inputs, scope=None):  # input 299*299*3
     with slim.arg_scope([slim.conv2d, slim.max_pool2d, slim.avg_pool2d], stride=1, padding='SAVE'):
         # 第一个模块组
         with tf.variable_scope('Mixed_5b'):
-            with tf.variable_scopw('Branch_0'):
+            with tf.variable_scope('Branch_0'):
                 branch_0 = slim.conv2d(net, 64, [1, 1], scope='Conv2d_0a_1*1')
             with tf.variable_scope('Branch_1'):
                 branch_1 = slim.conv2d(net, 48, [1, 1], scope='Conv2d_0a_1*1')

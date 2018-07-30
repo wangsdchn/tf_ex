@@ -1,4 +1,5 @@
 import tensorflow as tf
+import numpy as np
 
 
 def conv_op(input_op, name, kh, kw, n_out, dh, dw, p):
@@ -74,3 +75,24 @@ def inference_op(input_op, keep_prob):
     predict = tf.argmax(softmax, 1)
 
     return predict, softmax, fc8, p
+
+
+def load_initial_weights(weight_path, keep_layers, session):
+    weights_dict = np.load(weight_path, encoding='bytes').item()
+    for op_name in weights_dict:
+        # Check if the layer is one of the layers that should be reinitialized
+        # if op_name not in self.SKIP_LAYER:
+        if op_name not in keep_layers:
+            with tf.variable_scope(op_name, reuse=tf.AUTO_REUSE):
+                # Loop over list of weights/biases and assign them to their corresponding tf variable
+                for data in weights_dict[op_name]:
+                    # Biases
+                    if len(data.shape) == 1:
+                        var = tf.get_variable('biases', trainable=False)
+                        print(var.get_shape())
+                        session.run(var.assign(data))
+                    # Weights
+                    else:
+                        var = tf.get_variable('weights', trainable=False)
+                        print(var.get_shape())
+                        session.run(var.assign(data))
