@@ -9,9 +9,9 @@
 import os
 import numpy as np
 import tensorflow as tf
-import input_data
-import vgg
-import alexnet
+from tf_ex import input_data
+from tf_ex import alexnet
+from tf_ex import vgg
 
 
 N_CLASSES = 2

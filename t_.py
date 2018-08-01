@@ -7,8 +7,8 @@
 """
 import tensorflow as tf
 import numpy as np
-import input_data
-import alexnet
+from tf_ex import input_data
+from tf_ex import alexnet
 from PIL import Image
 import matplotlib.pyplot as plt
 
